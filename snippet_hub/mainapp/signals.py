@@ -8,3 +8,4 @@ def create_profile(sender, instance, created, **kwargs):
     if created:
         models.Profile.objects.create(user = instance)
         print('пользователь создан')
+
