@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="raw gap-1 p-2 m-1 ">
+            <div class="card m-1 card-bg">
+            <h5 class="card-header primary-text">Snippet #{{snippet.id}}</h5>
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                <h5 class="card-title primary-text">{{snippet.title}}</h5>
+                <span x-data="{
+    copy(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            this.copied = true;
+            setTimeout(() => this.copied = false, 2000);
+        }).catch(() => {
+            alert('Не удалось скопировать');
+        });
+    },
+    copied: false
+}">
+    <button class="btn btn--outline btn-sm" @click="copy(`{{ snippet.content }}`)">
+        <i class="fas fa-copy primary-text"></i>
+    </button>
+</span>
+                </div>
+
+                <pre><code class="card-text language-{{snippet.language}}">{{snippet.content}}</code></pre>
+            </div>
+            
+
+    </div>
+</div>
+
+{% endblock %}

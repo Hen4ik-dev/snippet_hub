@@ -15,6 +15,8 @@ class Snippet(models.Model):
     title = models.CharField(null= False, blank= False, help_text= 'title')
     author = models.ForeignKey(User, on_delete= models.CASCADE, related_name= 'snippets')
     tags = models.ManyToManyField(Tag, related_name= 'snippets', blank= True)
+    language = models.CharField(default= 'html', null= False)
+
 
 
 

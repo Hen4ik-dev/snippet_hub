@@ -1,0 +1,20 @@
+{%extends 'base.html'%}
+
+{% block title %}Profile{% endblock %}
+
+
+{% block content%}
+
+<div class="container mt-4 primary-text">
+  <h1 class="primary-text">Profile</h1>
+  {%if user.is_authenticated %}
+  <p>Welcome, {{ user.username }}!</p>
+  <p>Email: {{ user.email }}</p>
+  <p>First Name: {{ user.first_name }}</p>
+  <p>Last Name: {{ user.last_name }}</p>
+  {% else %}
+  <p>You are not logged in.</p>
+  {% endif %} {%include 'registration/_logout.html'%}
+</div>
+
+{%endblock%}
