@@ -8,7 +8,7 @@ from .models import Snippet
 class SnippetCreateForm(forms.ModelForm):
     class Meta:
         model = Snippet
-        fields = ["title", "content", "tags", "language"]
+        fields = ["title", "content", "language", "is_private"]
         widgets = {
             "title": forms.TextInput(
                 attrs={
@@ -20,11 +20,12 @@ class SnippetCreateForm(forms.ModelForm):
                     "class": "form-control",
                 },
             ),
-            "tags": forms.SelectMultiple(
-                attrs={
-                    "class": "form-control",
-                },
-            ),
+            # "tags": forms.SelectMultiple(
+            #     attrs={
+            #         "class": "form-control",
+            #     },
+            # ),
+            
         }
 
 

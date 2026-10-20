@@ -10,7 +10,9 @@ from .models import Snippet
 
 # Create your views here.
 def index(request):
-    return render(request, "index.html")
+    snippets = Snippet.objects.filter(Snippet.is_private == False).order_by('-created_at')[:10]
+    print(snippets)
+    return render(request, "index.html", context = {"snippets" : snippets})
 
 
 @login_required
@@ -40,7 +42,7 @@ def main_snippets(request):
 def snippet_detail(request, id):
     snippet = Snippet.objects.filter(id=id).first()
     if snippet:
-        if snippet.author != request.user:
+        if snippet.author != request.user and snippet.is_private:
             return render(request, "mainapp/error_access_denied.html")
     else:
         return redirect("index")
@@ -49,31 +51,30 @@ def snippet_detail(request, id):
 
 @login_required
 def snippet_update(request, id):
+    snippet = Snippet.objects.filter(id=id).first()
+    if snippet:
+        if snippet.author != request.user:
+            return render(request, "mainapp/error_access_denied.html")
+    else:
+        return redirect("index")
     if request.method == "POST":
-        form = SnippetCreateForm(request.POST)
+        form = SnippetCreateForm(request.POST, instance=snippet)
         if form.is_valid():
-            snippet = form.save(commit=False)
-            snippet.author = request.user
-            snippet.save()
-            form.save_m2m()
+            form.save()
+            #form.save_m2m()
             return redirect("snippet_detail", id=snippet.id)
 
     else:
-        snippet = Snippet.objects.filter(id=id).first()
-        if snippet:
-            if snippet.author != request.user:
-                return render(request, "mainapp/error_access_denied.html")
-        else:
-            return redirect("index")
         form = SnippetCreateForm(
             initial={
                 "title": snippet.title,
                 "content": snippet.content,
-                "tags": snippet.tags,
+                #"tags": snippet.tags,
                 "language": snippet.language,
+                "is_private": snippet.is_private
             }
         )
-    return render(request, "mainapp/create_snippet.html", context={"form": form})
+    return render(request, "mainapp/edit_snippet.html", context={"form": form})
 
 
 def sign_up(request):

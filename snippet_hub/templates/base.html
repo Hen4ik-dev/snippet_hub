@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.12.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.12.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.12.0/languages/python.min.js"></script>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-code-editor@5.4.0/dist/layout.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-code-editor@5.4.0/dist/themes/github-dark.css">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {# Blocks allows changing its content #}
@@ -35,8 +36,18 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css
 
 <body style="background-color: #09142f;">
     <nav class="navbar navbar-bg">
-    <div class="container-fluid">
+    <div class="container-fluid d-flex justify-content-between">
         <a class="navbar-brand">Navbar</a>
+        <div>
+            {% if user.is_authenticated %}
+            <span class="primary-text">{{ user.username }}!</span>
+            <a class="btn btn-outline-light" href="{% url 'profile' %}">Profile</a>
+            <a class="btn btn-outline-light" href="{% url 'main_snippets' %}">Snippets</a>
+            {% else %}
+            <a class="btn btn-outline-light" href="{% url 'login' %}">Login</a>
+            <a class="btn btn-outline-light" href="{% url 'signup' %}">Sign Up</a>
+            {% endif %}
+        </div>
     </div>
     </nav>
   {% block content %}{% endblock %}

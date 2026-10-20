@@ -5,4 +5,5 @@
 {% block content %}
   <h1 class="primary-text">Welcome to Snippet Hub</h1>
   <p class = "primary-text">This is the home page.</p>
+  {%for snippet is snippets%} {{snippet.text}}{%%endfor%%}
 {% endblock %}

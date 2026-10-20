@@ -16,6 +16,7 @@ class Snippet(models.Model):
     author = models.ForeignKey(User, on_delete= models.CASCADE, related_name= 'snippets')
     tags = models.ManyToManyField(Tag, related_name= 'snippets', blank= True)
     language = models.CharField(default= 'html', null= False)
+    is_private = models.BooleanField(default=True, )
 
 
 

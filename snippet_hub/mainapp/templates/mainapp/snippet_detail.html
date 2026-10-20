@@ -24,12 +24,12 @@
     </button>
 </span>
                 </div>
-
                 <pre><code class="card-text language-{{snippet.language}}">{{snippet.content}}</code></pre>
             </div>
             
 
     </div>
+    <a class ="btn btn-primary" href="{% url 'snippet_update' id=snippet.id %}"> edit </a>
 </div>
 
 {% endblock %}

@@ -8,4 +8,5 @@ urlpatterns = [
     path('snippets/<int:id>/', views.snippet_detail, name='snippet_detail'),
     path('signup/', views.sign_up, name ='signup'),
     path('profile/', views.profile, name='profile'),
+    path('snippets/<int:id>/update/', views.snippet_update, name='snippet_update'),
 ]
