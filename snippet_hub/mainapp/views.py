@@ -10,8 +10,7 @@ from .models import Snippet
 
 # Create your views here.
 def index(request):
-    snippets = Snippet.objects.filter(Snippet.is_private == False).order_by('-created_at')[:10]
-    print(snippets)
+    snippets = Snippet.objects.filter(is_private = False).order_by('-created_at')[:10]
     return render(request, "index.html", context = {"snippets" : snippets})
 
 
