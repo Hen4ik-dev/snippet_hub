@@ -18,6 +18,8 @@ Snippets
               <a href="{%url 'snippet_detail' id=snippet.id%}" class="btn btn-primary">See</a>
             </div>
           </div>
+        {% empty %}
+          <p class="primary-text text-center">No snippets found - <a class="text-decoration-none" href="{% url 'create_snippet' %}">create?</a></p>
         {%endfor%}
       </div>
 </div>

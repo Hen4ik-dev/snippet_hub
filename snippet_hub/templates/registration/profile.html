@@ -6,7 +6,7 @@
 {% block content%}
 
 <div class="container mt-4 primary-text">
-  <h1 class="primary-text">Profile</h1>
+  <h1 class="primary-text text-center">Profile</h1>
   {%if user.is_authenticated %}
   <p>Welcome, {{ user.username }}!</p>
   <p>Email: {{ user.email }}</p>
