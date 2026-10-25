@@ -1,13 +1,46 @@
 {% extends 'base.html' %}
+{% block title %}Sign Up{% endblock %}
 
-{% block title %} 
-<div class="primary-text"> signup </div>
+{% block content %}
+<div class="d-flex justify-content-center align-items-center">
+  <div class="card card-bg border-light shadow rounded-4 p-4 m-5" style="width: 60vh;">
+
+    <h1 class="h5 primary-text text-center mb-3">Sign Up</h1>
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger py-2 small">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="id_username" class="form-label primary-text">Username</label>
+        <input type="text" name="username" id="id_username" class="form-control" required>
+        {% if form.username.errors %}
+          <div class="text-danger small mt-1">{{ form.username.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_password1" class="form-label primary-text">Password</label>
+        <input type="password" name="password1" id="id_password1" class="form-control" required>
+        {% if form.password1.errors %}
+          <div class="text-danger small mt-1">{{ form.password1.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_password2" class="form-label primary-text">Confirm password</label>
+        <input type="password" name="password2" id="id_password2" class="form-control" required>
+        {% if form.password2.errors %}
+          <div class="text-danger small mt-1">{{ form.password2.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn copy-btn-bg text-dark w-100 fw-semibold">Sign Up</button>
+    </form>
+
+  </div>
+</div>
 {% endblock %}
-
-{%block content%}
-<form method="post" class="primary-text">
-  {%csrf_token%} {{form}}
-  <button type="submit" class="navbar-bg">signup</button>
-</form>
-
-{%endblock%}
