@@ -1,6 +1,6 @@
 <form method="post" action="{%url 'logout'%}">
     {%csrf_token%}
-    {{form}}
-    <button type='submit' class="primary-text">logout</button>
+    {{form.as_p}}
+    <button type='submit' class="rounded-xl btn btn-danger">logout</button>
     <input type="hidden" name="next" value="{%url 'index'%}">
 </form>

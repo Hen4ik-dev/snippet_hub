@@ -1,9 +1,39 @@
-{%extends 'base.html'%} {% block title %}login{% endblock %} {% block content %}
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
 
-<form method="post">
-  {%csrf_token%} {{form}}
-  <button type="submit" class="primary-text">login</button>
-  <input type="hidden" name="next" value="{%url 'profile'%}" />
-</form>
+{% block content %}
+<div class="d-flex justify-content-center align-items-center">
+  <div class="card card-bg border-light shadow rounded-4 p-4 m-5" style="width: 50vh;">
 
-{%endblock%}
+    <h1 class="h5 primary-text text-center mb-3">Login</h1>
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger py-2 small">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="id_username" class="form-label primary-text">Username</label>
+        <input type="text" name="username" id="id_username" class="form-control" required>
+        {% if form.username.errors %}
+          <div class="text-danger small mt-1">{{ form.username.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_password" class="form-label primary-text">Password</label>
+        <input type="password" name="password" id="id_password" class="form-control" required>
+        {% if form.password.errors %}
+          <div class="text-danger small mt-1">{{ form.password.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <input type="hidden" name="next" value="{% url 'profile' %}">
+      <button class="btn copy-btn-bg text-dark w-100 fw-semibold">Login</button>
+    </form>
+
+  </div>
+</div>
+{% endblock %}
