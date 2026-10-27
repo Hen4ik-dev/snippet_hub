@@ -5,6 +5,7 @@
   <div class="raw gap-1 p-2 m-1 ">
             <div class="card m-1 card-bg">
             <h5 class="card-header primary-text">Snippet #{{snippet.id}}</h5>
+
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                 <h5 class="card-title primary-text">{{snippet.title}}</h5>
@@ -26,10 +27,16 @@
                 </div>
                 <pre><code class="card-text language-{{snippet.language}}">{{snippet.content}}</code></pre>
             </div>
-            
 
     </div>
-    <a class ="btn btn-primary" href="{% url 'snippet_update' id=snippet.id %}"> edit </a>
+      <div class="d-flex justify-content-start ">
+    <a class ="btn btn-primary mx-2" href="{% url 'snippet_update' id=snippet.id %}"> edit </a>
+       <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">delete</button>
+            </form>
+          </div>
 </div>
+
 
 {% endblock %}

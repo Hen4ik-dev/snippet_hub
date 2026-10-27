@@ -3,8 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
-
-from .forms import SignUpForm, SnippetCreateForm
+from django.db.models import Q
+from .forms import SignUpForm, SnippetCreateForm, SnippetsSearch
 from .models import Snippet
 
 
@@ -39,13 +39,20 @@ def main_snippets(request):
 
 @login_required
 def snippet_detail(request, id):
-    snippet = Snippet.objects.filter(id=id).first()
-    if snippet:
-        if snippet.author != request.user and snippet.is_private:
-            return render(request, "mainapp/error_access_denied.html")
+    if request.method == "POST":
+        snippet = Snippet.objects.filter(id=id).first()
+        if snippet:
+            snippet.delete()
+            return redirect("main_snippets")
+        return render(request, "mainapp/error_page.html", context={"error_message": "сниппет не найден"})
     else:
-        return redirect("index")
-    return render(request, "mainapp/snippet_detail.html", context={"snippet": snippet})
+        snippet = Snippet.objects.filter(id=id).first()
+        if snippet:
+            if snippet.author != request.user and snippet.is_private:
+                return render(request, "mainapp/error_page.html", context={"error_message": "доступ запрещен"})
+        else:
+            return redirect("index")
+        return render(request, "mainapp/snippet_detail.html", context={"snippet": snippet})
 
 
 @login_required
@@ -53,7 +60,7 @@ def snippet_update(request, id):
     snippet = Snippet.objects.filter(id=id).first()
     if snippet:
         if snippet.author != request.user:
-            return render(request, "mainapp/error_access_denied.html")
+            return render(request, "mainapp/error_page.html", context={"error_message": "Доступ запрещен"})
     else:
         return redirect("index")
     if request.method == "POST":
@@ -88,7 +95,29 @@ def sign_up(request):
         form = SignUpForm()
     return render(request, "registration/sign_up.html", {"form": form})
 
-
 @login_required
 def profile(request):
     return render(request, "registration/profile.html")
+
+def search_snippets(request):
+    if request.method == "POST":
+        form = SnippetsSearch(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            requierd = Q(is_private = False)
+            optional = Q()
+            if data.get("title"):
+                optional |= Q(title__icontains = data.get("title"))
+            if data.get("content"):
+                optional |= Q(content__icontains = data.get("content"))
+            if data.get("language"):
+                optional |= Q(language__icontains = data.get("language"))
+            if optional:
+                snippets = Snippet.objects.filter(requierd & optional).all()
+            else:
+                snippets = Snippet.objects.filter(requierd).all()
+            return render(request, "mainapp/search_snippets_results.html", context={"snippets": snippets})
+    else:
+        form = SnippetsSearch()
+    return render(request, "mainapp/search_snippets.html", context={"form": form})
+

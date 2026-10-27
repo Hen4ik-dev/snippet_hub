@@ -18,6 +18,3 @@ class Snippet(models.Model):
     language = models.CharField(default= 'html', null= False)
     is_private = models.BooleanField(default=True, )
 
-
-
-

@@ -1,0 +1,30 @@
+{%extends 'base.html'%}
+{%block title%}
+Snippets search results
+{%endblock%}
+
+{%block content%}
+<h1 class="primary-text text-center">
+    Search results:
+</h1>
+<div class="container w-50">
+    	<div class="raw gap-1 p-2 m-1">
+        {%for snippet in snippets%}
+          <div class="card m-1 card-bg">
+            <h5 class="card-header primary-text">Snippet #{{snippet.id}}</h5>
+            <div class="card-body">
+              <h5 class="card-title primary-text">{{snippet.title}}</h5>
+
+              <pre><code class="card-text language-{{snippet.language}}">{{snippet.content|truncatechars:200}}</code></pre>
+
+              <a href="{%url 'snippet_detail' id=snippet.id%}" class="btn btn-primary">See</a>
+            </div>
+          </div>
+        {% empty %}
+          <p class="primary-text text-center">No snippets found - <a class="text-decoration-none" href="{% url 'create_snippet' %}">create?</a></p>
+        {%endfor%}
+      </div>
+</div>
+
+
+{%endblock%}
