@@ -1,0 +1,6 @@
+{
+email admin@example.com
+}
+{$DOMAIN:localhost} {
+    reverse_proxy web:8000
+}

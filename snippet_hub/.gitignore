@@ -3,3 +3,4 @@ __pycache__
 .venv
 .VENV
 db.sqlite3
+data/*
